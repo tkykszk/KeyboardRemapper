@@ -28,7 +28,7 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mapping = new KeyMapping
             {
-                Type = "remap",
+                Type = MappingType.Remap,
                 SourceKey = "CapsLock",
                 TargetKey = "LCtrl",
                 Description = "CapsLock -> LCtrl"
@@ -53,8 +53,8 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mappings = new List<KeyMapping>
             {
-                new KeyMapping { Type = "remap", SourceKey = "CapsLock", TargetKey = "LCtrl" },
-                new KeyMapping { Type = "remap", SourceKey = "Escape", TargetKey = "CapsLock" }
+                new KeyMapping { Type = MappingType.Remap, SourceKey = "CapsLock", TargetKey = "LCtrl" },
+                new KeyMapping { Type = MappingType.Remap, SourceKey = "Escape", TargetKey = "CapsLock" }
             };
 
             foreach (var mapping in mappings)
@@ -78,7 +78,7 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mapping = new KeyMapping
             {
-                Type = "remap",
+                Type = MappingType.Remap,
                 SourceKey = "CapsLock",
                 TargetKey = "LCtrl"
             };
@@ -105,7 +105,7 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mapping = new KeyMapping
             {
-                Type = "swap",
+                Type = MappingType.Swap,
                 SourceKey = "CapsLock",
                 TargetKey = "LCtrl",
                 Description = "CapsLock <-> LCtrl"
@@ -129,8 +129,8 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mappings = new List<KeyMapping>
             {
-                new KeyMapping { Type = "swap", SourceKey = "CapsLock", TargetKey = "LCtrl" },
-                new KeyMapping { Type = "swap", SourceKey = "LShift", TargetKey = "LAlt" }
+                new KeyMapping { Type = MappingType.Swap, SourceKey = "CapsLock", TargetKey = "LCtrl" },
+                new KeyMapping { Type = MappingType.Swap, SourceKey = "LShift", TargetKey = "LAlt" }
             };
 
             foreach (var mapping in mappings)
@@ -162,7 +162,7 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mapping = new KeyMapping
             {
-                Type = "disable",
+                Type = MappingType.Disable,
                 SourceKey = "CapsLock",
                 TargetKey = "0",
                 Description = "CapsLock disabled"
@@ -186,8 +186,8 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mappings = new List<KeyMapping>
             {
-                new KeyMapping { Type = "disable", SourceKey = "CapsLock", TargetKey = "0" },
-                new KeyMapping { Type = "disable", SourceKey = "ScrollLock", TargetKey = "0" }
+                new KeyMapping { Type = MappingType.Disable, SourceKey = "CapsLock", TargetKey = "0" },
+                new KeyMapping { Type = MappingType.Disable, SourceKey = "ScrollLock", TargetKey = "0" }
             };
 
             foreach (var mapping in mappings)
@@ -217,14 +217,14 @@ namespace KeyboardRemapper.Tests
 
             var mapping1 = new KeyMapping
             {
-                Type = "remap",
+                Type = MappingType.Remap,
                 SourceKey = "CapsLock",
                 TargetKey = "LCtrl"
             };
 
             var mapping2 = new KeyMapping
             {
-                Type = "remap",
+                Type = MappingType.Remap,
                 SourceKey = "CapsLock",
                 TargetKey = "Escape"
             };
@@ -248,7 +248,7 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mapping = new KeyMapping
             {
-                Type = "remap",
+                Type = MappingType.Remap,
                 SourceKey = "CapsLock",
                 TargetKey = "LCtrl"
             };
@@ -289,7 +289,7 @@ namespace KeyboardRemapper.Tests
             var deviceId = "FFFF:FFFF";
             var mapping = new KeyMapping
             {
-                Type = "remap",
+                Type = MappingType.Remap,
                 SourceKey = "CapsLock",
                 TargetKey = "LCtrl"
             };
@@ -311,7 +311,7 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mapping = new KeyMapping
             {
-                Type = "remap",
+                Type = MappingType.Remap,
                 SourceKey = "CapsLock",
                 TargetKey = "LCtrl"
             };
@@ -334,7 +334,7 @@ namespace KeyboardRemapper.Tests
             var deviceId = "04FE:0021";
             var mapping = new KeyMapping
             {
-                Type = "remap",
+                Type = MappingType.Remap,
                 SourceKey = "CapsLock",
                 TargetKey = "LCtrl"
             };
@@ -372,7 +372,7 @@ namespace KeyboardRemapper.Tests
             {
                 var mapping = new KeyMapping
                 {
-                    Type = "remap",
+                    Type = MappingType.Remap,
                     SourceKey = key,
                     TargetKey = key.ToLower()
                 };
@@ -393,16 +393,5 @@ namespace KeyboardRemapper.Tests
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// キーイベント処理結果を表すクラス
-    /// </summary>
-    public class KeyEventResult
-    {
-        public string? MappedKey { get; set; }
-        public string? MappingType { get; set; }
-        public bool IsKeyPressed { get; set; }
-        public bool IsDisabled { get; set; }
     }
 }

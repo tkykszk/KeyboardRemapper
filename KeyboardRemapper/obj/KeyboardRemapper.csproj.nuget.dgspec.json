@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/ubuntu/KeyboardRemapper/KeyboardRemapper/KeyboardRemapper.csproj": {}
+    "/home/ubuntu/KeyboardRemapper-Release/KeyboardRemapper/KeyboardRemapper.csproj": {}
   },
   "projects": {
-    "/home/ubuntu/KeyboardRemapper/KeyboardRemapper/KeyboardRemapper.csproj": {
+    "/home/ubuntu/KeyboardRemapper-Release/KeyboardRemapper/KeyboardRemapper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ubuntu/KeyboardRemapper/KeyboardRemapper/KeyboardRemapper.csproj",
+        "projectUniqueName": "/home/ubuntu/KeyboardRemapper-Release/KeyboardRemapper/KeyboardRemapper.csproj",
         "projectName": "KeyboardRemapper",
-        "projectPath": "/home/ubuntu/KeyboardRemapper/KeyboardRemapper/KeyboardRemapper.csproj",
+        "projectPath": "/home/ubuntu/KeyboardRemapper-Release/KeyboardRemapper/KeyboardRemapper.csproj",
         "packagesPath": "/home/ubuntu/.nuget/packages/",
-        "outputPath": "/home/ubuntu/KeyboardRemapper/KeyboardRemapper/obj/",
+        "outputPath": "/home/ubuntu/KeyboardRemapper-Release/KeyboardRemapper/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/ubuntu/.nuget/NuGet/NuGet.Config"

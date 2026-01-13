@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MtmhLhHsMo6qKjNJ5cFWamYgmqrKf6YrOojbxg0aEpajm6bE2cUjy/hOu2IcM5mp2BqYNqUVmKL1nVa4oZ58vw==",
+  "dgSpecHash": "x8ACDyGaiW4tU9adh1ZXycaQ5cXas4qgw3hD24IM6FetuEzL9pMvlq2shqCKZDO9p++qLo2uumKJ0UD3rsd9Iw==",
   "success": true,
-  "projectFilePath": "/home/ubuntu/KeyboardRemapper/KeyboardRemapper/KeyboardRemapper.csproj",
+  "projectFilePath": "/home/ubuntu/KeyboardRemapper-Release/KeyboardRemapper/KeyboardRemapper.csproj",
   "expectedPackageFiles": [
     "/home/ubuntu/.nuget/packages/rawinput.sharp/0.1.3/rawinput.sharp.0.1.3.nupkg.sha512",
     "/home/ubuntu/.nuget/packages/system.io.pipelines/10.0.1/system.io.pipelines.10.0.1.nupkg.sha512",

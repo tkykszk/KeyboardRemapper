@@ -272,20 +272,20 @@ namespace KeyboardRemapper
             {
                 if (mapping.SourceKey == keyName)
                 {
-                    result.MappingType = mapping.Type;
+                    result.MappingType = mapping.Type.ToString().ToLower();
 
                     switch (mapping.Type)
                     {
-                        case "remap":
+                        case MappingType.Remap:
                             result.MappedKey = mapping.TargetKey;
                             break;
 
-                        case "swap":
+                        case MappingType.Swap:
                             // スワップの場合、ターゲットキーもマップ
                             result.MappedKey = mapping.TargetKey;
                             break;
 
-                        case "disable":
+                        case MappingType.Disable:
                             result.IsDisabled = true;
                             result.MappedKey = null;
                             break;
@@ -293,9 +293,9 @@ namespace KeyboardRemapper
                     break;
                 }
                 // スワップの場合、ターゲットキーからのリバースマップも処理
-                else if (mapping.Type == "swap" && mapping.TargetKey == keyName)
+                else if (mapping.Type == MappingType.Swap && mapping.TargetKey == keyName)
                 {
-                    result.MappingType = mapping.Type;
+                    result.MappingType = mapping.Type.ToString().ToLower();
                     result.MappedKey = mapping.SourceKey;
                     break;
                 }
