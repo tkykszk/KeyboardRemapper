@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "devices": [
+    {
+      "device_id": "04FE:0021",
+      "device_name": "HHKB Professional",
+      "vid": "04FE",
+      "pid": "0021",
+      "enabled": true,
+      "mappings": [
+        {
+          "type": "remap",
+          "source_key": "CapsLock",
+          "target_key": "LCtrl",
+          "description": "CapsLock -> LCtrl (HHKB用)"
+        },
+        {
+          "type": "disable",
+          "source_key": "Escape",
+          "target_key": "0",
+          "description": "Escapeキーを無効化（代わりにCaps+Escapeを使用）"
+        }
+      ]
+    },
+    {
+      "device_id": "0000:0000",
+      "device_name": "Built-in Keyboard",
+      "vid": "0000",
+      "pid": "0000",
+      "enabled": false,
+      "mappings": [
+        {
+          "type": "remap",
+          "source_key": "CapsLock",
+          "target_key": "Escape",
+          "description": "内蔵キーボード: CapsLock -> Escape"
+        }
+      ]
+    }
+  ]
+}

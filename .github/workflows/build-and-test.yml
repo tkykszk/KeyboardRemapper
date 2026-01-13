@@ -1,0 +1,91 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        dotnet-version: ['8.0.x']
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    
+    - name: Restore dependencies
+      run: dotnet restore KeyboardRemapper/KeyboardRemapper.csproj
+    
+    - name: Build (Debug)
+      run: dotnet build KeyboardRemapper/KeyboardRemapper.csproj -c Debug --no-restore
+    
+    - name: Build (Release)
+      run: dotnet build KeyboardRemapper/KeyboardRemapper.csproj -c Release --no-restore
+    
+    - name: Test device detection
+      run: |
+        cd KeyboardRemapper
+        dotnet run -c Release -- list
+      continue-on-error: true
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: KeyboardRemapper/bin/Release/net8.0/
+        retention-days: 30
+
+  code-quality:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore KeyboardRemapper/KeyboardRemapper.csproj
+    
+    - name: Check code style
+      run: dotnet build KeyboardRemapper/KeyboardRemapper.csproj -c Release --no-restore /p:EnforceCodeStyleInBuild=true
+      continue-on-error: true
+
+  publish:
+    needs: build
+    runs-on: windows-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Publish (Windows x64)
+      run: dotnet publish KeyboardRemapper/KeyboardRemapper.csproj -c Release -r win-x64 --self-contained
+    
+    - name: Create Release Archive
+      run: |
+        cd KeyboardRemapper/bin/Release/net8.0/win-x64/publish
+        7z a -tzip KeyboardRemapper-v1.0.0-win-x64.zip .
+        move KeyboardRemapper-v1.0.0-win-x64.zip ${{ github.workspace }}/
+    
+    - name: Upload Release Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-package
+        path: KeyboardRemapper-v1.0.0-win-x64.zip
