@@ -7,6 +7,17 @@ using Linearstar.Windows.RawInput.Native;
 namespace KeyboardRemapper
 {
     /// <summary>
+    /// キーイベント処理結果を表すクラス
+    /// </summary>
+    public class KeyEventResult
+    {
+        public string? MappedKey { get; set; }
+        public string? MappingType { get; set; }
+        public bool IsKeyPressed { get; set; }
+        public bool IsDisabled { get; set; }
+    }
+
+    /// <summary>
     /// キーリマップエンジン
     /// </summary>
     public class KeyRemapEngine
@@ -65,6 +76,9 @@ namespace KeyboardRemapper
 
         private Dictionary<IntPtr, DeviceMapping> _deviceMappings = new();
         private Dictionary<IntPtr, Dictionary<uint, uint>> _remapCache = new();
+        
+        // テスト用: デバイスIDベースのマッピング
+        private Dictionary<string, List<KeyMapping>> _testMappings = new();
 
         /// <summary>
         /// デバイスマッピングを設定
@@ -218,6 +232,76 @@ namespace KeyboardRemapper
         public bool HasMapping(IntPtr deviceHandle)
         {
             return _remapCache.ContainsKey(deviceHandle);
+        }
+
+        // ========== テスト用メソッド ==========
+
+        /// <summary>
+        /// テスト用: マッピングを追加
+        /// </summary>
+        public void AddMapping(string deviceId, KeyMapping mapping)
+        {
+            if (!_testMappings.ContainsKey(deviceId))
+            {
+                _testMappings[deviceId] = new List<KeyMapping>();
+            }
+            _testMappings[deviceId].Add(mapping);
+        }
+
+        /// <summary>
+        /// テスト用: キーイベントを処理してマッピングを適用
+        /// </summary>
+        public KeyEventResult ProcessKeyEvent(string deviceId, string keyName, bool isPressed)
+        {
+            var result = new KeyEventResult
+            {
+                MappedKey = keyName,
+                IsKeyPressed = isPressed,
+                IsDisabled = false
+            };
+
+            if (!_testMappings.ContainsKey(deviceId))
+            {
+                return result;
+            }
+
+            var mappings = _testMappings[deviceId];
+
+            // キーマッピングを検索
+            foreach (var mapping in mappings)
+            {
+                if (mapping.SourceKey == keyName)
+                {
+                    result.MappingType = mapping.Type;
+
+                    switch (mapping.Type)
+                    {
+                        case "remap":
+                            result.MappedKey = mapping.TargetKey;
+                            break;
+
+                        case "swap":
+                            // スワップの場合、ターゲットキーもマップ
+                            result.MappedKey = mapping.TargetKey;
+                            break;
+
+                        case "disable":
+                            result.IsDisabled = true;
+                            result.MappedKey = null;
+                            break;
+                    }
+                    break;
+                }
+                // スワップの場合、ターゲットキーからのリバースマップも処理
+                else if (mapping.Type == "swap" && mapping.TargetKey == keyName)
+                {
+                    result.MappingType = mapping.Type;
+                    result.MappedKey = mapping.SourceKey;
+                    break;
+                }
+            }
+
+            return result;
         }
     }
 }

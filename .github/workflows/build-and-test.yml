@@ -23,13 +23,17 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
     
     - name: Restore dependencies
-      run: dotnet restore KeyboardRemapper/KeyboardRemapper.csproj
+      run: dotnet restore
     
     - name: Build (Debug)
-      run: dotnet build KeyboardRemapper/KeyboardRemapper.csproj -c Debug --no-restore
+      run: dotnet build -c Debug --no-restore
     
     - name: Build (Release)
-      run: dotnet build KeyboardRemapper/KeyboardRemapper.csproj -c Release --no-restore
+      run: dotnet build -c Release --no-restore
+    
+    - name: Run unit tests - Key remapping
+      run: dotnet test KeyboardRemapper.Tests/KeyboardRemapper.Tests.csproj -c Release --no-build -v normal --logger "console;verbosity=detailed"
+      continue-on-error: false
     
     - name: Test device detection
       run: |
@@ -40,8 +44,35 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: build-artifacts
+        name: build-artifacts-${{ matrix.dotnet-version }}
         path: KeyboardRemapper/bin/Release/net8.0/
+        retention-days: 30
+
+  test-keyboard-events:
+    runs-on: windows-latest
+    needs: build
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Run keyboard event tests
+      run: |
+        dotnet test KeyboardRemapper.Tests/KeyboardRemapper.Tests.csproj -c Release --no-build -v detailed --logger "console;verbosity=detailed" --collect:"XPlat Code Coverage"
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results
+        path: '**/TestResults/'
         retention-days: 30
 
   code-quality:
@@ -56,14 +87,14 @@ jobs:
         dotnet-version: '8.0.x'
     
     - name: Restore dependencies
-      run: dotnet restore KeyboardRemapper/KeyboardRemapper.csproj
+      run: dotnet restore
     
     - name: Check code style
-      run: dotnet build KeyboardRemapper/KeyboardRemapper.csproj -c Release --no-restore /p:EnforceCodeStyleInBuild=true
+      run: dotnet build -c Release --no-restore /p:EnforceCodeStyleInBuild=true
       continue-on-error: true
 
   publish:
-    needs: build
+    needs: [build, test-keyboard-events]
     runs-on: windows-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
