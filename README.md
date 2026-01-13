@@ -23,13 +23,13 @@
 
 ### 方法1: ビルド済みバイナリを使用
 
-1. [Releases](https://github.com/yourusername/KeyboardRemapper/releases) からダウンロード
+1. [Releases](https://github.com/tkykszk/KeyboardRemapper/releases) からダウンロード
 2. `KeyboardRemapper.exe` を実行
 
 ### 方法2: ソースコードからビルド
 
 ```bash
-git clone https://github.com/yourusername/KeyboardRemapper.git
+git clone https://github.com/tkykszk/KeyboardRemapper.git
 cd KeyboardRemapper/KeyboardRemapper
 dotnet build -c Release
 dotnet run
